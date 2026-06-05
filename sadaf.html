@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر صدف - كروشيه يدوي</title>
+    <meta name="keywords" content="sadaf, hand made, كروشيه, يدوى, شنط, مصيف">
+    <style>
+        :root {
+            --sea-blue: #4A90E2;
+            --coral: #FF7F50;
+            --sand: #F5E6CC;
+            --text-color: #333;
+            --whatsapp: #25D366;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: #fafafa;
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        body[dir="ltr"] {
+            direction: ltr;
+        }
+
+      .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+      .logo {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid var(--sea-blue);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--sea-blue);
+            margin: 0;
+        }
+
+        /* زرار اللغة ثابت على الجنب */
+      .lang-btn-fixed {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            background-color: var(--sea-blue);
+            color: white;
+            padding: 12px 8px;
+            border-radius: 8px 0 0 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 998;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            border: none;
+            box-shadow: -2px 2px 8px rgba(0,0,0,0.2);
+        }
+
+        body[dir="ltr"].lang-btn-fixed {
+            right: auto;
+            left: 0;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+        }
+
+      .lang-btn-fixed:active {
+            background-color: #3a7bc8;
+        }
+
+      .toolbar {
+            max-width: 1200px;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+      .sort-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+      .sort-group select {
+            padding: 10px;
+            border: 2px solid var(--sand);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+      .cart-icon {
+            position: relative;
+            background-color: var(--sea-blue);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 44px;
+        }
+
+      .cart-badge {
+            background-color: var(--coral);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+      .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        @media (max-width: 768px) {
+         .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            body {
+                padding: 10px;
+                padding-bottom: 100px;
+            }
+         .product-card {
+                padding: 12px;
+            }
+         .product-img {
+                height: 160px;
+            }
+            h3 {
+                font-size: 14px;
+                margin: 8px 0;
+            }
+         .product-card p {
+                font-size: 13px;
+                margin: 5px 0;
+            }
+            button {
+                padding: 10px 12px;
+                font-size: 13px;
+                width: 100%;
+            }
+         .logo {
+                width: 50px;
+                height: 50px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+         .toolbar {
+                flex-direction: column;
+            }
+         .sort-group {
+                width: 100%;
+            }
+         .sort-group select {
+                flex: 1;
+            }
+         .cart-icon {
+                width: 100%;
+                justify-content: center;
+            }
+         .lang-btn-fixed {
+                font-size: 12px;
+                padding: 10px 6px;
+            }
+        }
+
+     .product-card {
+            background: white;
+            border: 2px solid var(--sand);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+     .product-card:hover {
+            border-color: var(--sea-blue);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+     .product-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+     .product-img:active {
+            opacity: 0.7;
+        }
+
+        button {
+            background-color: var(--coral);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: inherit;
+            font-size: 15px;
+            min-height: 44px;
+            touch-action: manipulation;
+            margin: 5px 0;
+        }
+
+        button:active {
+            background-color: #e66a3e;
+            transform: scale(0.98);
+        }
+
+     .add-cart-btn {
+            background-color: var(--sea-blue);
+        }
+
+     .add-cart-btn:active {
+            background-color: #3a7bc8;
+        }
+
+     .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: var(--whatsapp);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+            z-index: 999;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        body[dir="ltr"].whatsapp-float {
+            left: auto;
+            right: 20px;
+        }
+
+     .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+     .whatsapp-btn {
+            background-color: var(--whatsapp);
+            width: 100%;
+            margin-top: 10px;
+        }
+
+     .whatsapp-btn:hover {
+            background-color: #1fb855;
+        }
+
+     .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+     .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 25px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+     .close {
+            color: #aaa;
+            float: left;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 20px;
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        body[dir="ltr"].close {
+            float: right;
+        }
+
+     .close:active { color: var(--coral); }
+
+     .form-group {
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
+        body[dir="ltr"].form-group {
+            text-align: left;
+        }
+
+     .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--sea-blue);
+        }
+
+     .form-group input,.form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--sand);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: inherit;
+            font-size: 16px;
+        }
+
+     .form-group input:focus,.form-group select:focus {
+            outline: none;
+            border-color: var(--sea-blue);
+        }
+
+        #visaFields {
+            display: none;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+     .submit-btn {
+            width: 100%;
+            margin-top: 10px;
+            padding: 14px;
+            font-size: 16px;
+        }
+
+     .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            animation: fadeIn 0.3s;
+        }
+
+     .lightbox-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 10px;
+        }
+
+     .lightbox-close {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            color: #fff;
+            font-size: 45px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2001;
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        body[dir="ltr"].lightbox-close {
+            left: auto;
+            right: 20px;
+        }
+
+     .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid var(--sand);
+            gap: 10px;
+        }
+
+     .cart-item-info {
+            flex: 1;
+            text-align: right;
+        }
+
+        body[dir="ltr"].cart-item-info {
+            text-align: left;
+        }
+
+     .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+     .qty-btn {
+            background-color: var(--sea-blue);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0;
+            min-height: 32px;
+        }
+
+     .qty-btn:active {
+            background-color: #3a7bc8;
+        }
+
+     .remove-btn {
+            background-color: #ff4444;
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+     .cart-total {
+            background-color: var(--sand);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--sea-blue);
+        }
+
+     .empty-cart {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- زرار اللغة ثابت على الجنب -->
+    <button class="lang-btn-fixed" onclick="toggleLanguage()" id="langBtn">English</button>
+
+    <div class="header">
+        <img src="WhatsApp Image 2026-06-05 at 5.09.09 PM.jpeg" alt="لوجو صدف" class="logo">
+        <h1 data-i18n="title">متجر صدف للكروشيه</h1>
+    </div>
+
+    <div class="toolbar">
+        <div class="sort-group">
+            <label data-i18n="sort">ترتيب:</label>
+            <select id="sortSelect" onchange="sortProducts()">
+                <option value="default" data-i18n="sortDefault">افتراضي</option>
+                <option value="name-asc" data-i18n="sortNameAsc">أبجدي أ-ي</option>
+                <option value="name-desc" data-i18n="sortNameDesc">أبجدي ي-أ</option>
+                <option value="price-asc" data-i18n="sortPriceAsc">السعر: الأقل للأعلى</option>
+                <option value="price-desc" data-i18n="sortPriceDesc">السعر: الأعلى للأقل</option>
+            </select>
+        </div>
+        <div class="cart-icon" onclick="openCart()">
+            <span data-i18n="cart">🛒 سلة المشتريات</span>
+            <span class="cart-badge" id="cartCount">0</span>
+        </div>
+    </div>
+
+    <div class="product-grid" id="productGrid"></div>
+
+    <a href="https://wa.me/201019336689?text=مرحبا،%20عايز%20استفسر%20عن%20منتجات%20صدف" target="_blank" class="whatsapp-float" id="whatsappFloat">
+        &#x1F4AC;
+    </a>
+
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCart()">&times;</span>
+            <h2 style="color: var(--sea-blue); margin-top: 0;" data-i18n="cartTitle">سلة المشتريات</h2>
+            <div id="cartItems"></div>
+            <div class="cart-total" id="cartTotal"></div>
+            <button onclick="checkoutCart()" class="submit-btn" id="checkoutBtn" style="display:none;" data-i18n="checkout">إتمام الطلب</button>
+            <button onclick="clearCart()" class="submit-btn" style="background-color: #ff4444; display:none;" id="clearBtn" data-i18n="clearCart">تفريغ السلة</button>
+        </div>
+    </div>
+
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="productTitle" style="color: var(--sea-blue); margin-top: 0;" data-i18n="orderTitle">إتمام الطلب</h2>
+            <p id="productPrice" style="font-weight: bold;"></p>
+
+            <form id="orderForm" onsubmit="submitOrder(event)">
+                <div class="form-group">
+                    <label data-i18n="phone">رقم التليفون *</label>
+                    <input type="tel" id="phone" required placeholder="01xxxxxxxxx">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="address">العنوان بالتفصيل *</label>
+                    <input type="text" id="address" required data-i18n-placeholder="addressPlaceholder">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="email">الإيميل (اختياري)</label>
+                    <input type="email" id="email" placeholder="example@gmail.com">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="payment">طريقة الدفع *</label>
+                    <select id="paymentMethod" required onchange="toggleVisaFields()">
+                        <option value="" data-i18n="selectPayment">اختر طريقة الدفع</option>
+                        <option value="cash" data-i18n="cash">كاش عند الاستلام</option>
+                        <option value="visa" data-i18n="visa">فيزا</option>
+                    </select>
+                </div>
+
+                <div id="visaFields">
+                    <div class="form-group">
+                        <label data-i18n="cardNumber">رقم البطاقة *</label>
+                        <input type="text" id="cardNumber" maxlength="19" placeholder="1234 5678 9012 3456">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="cardExpiry">تاريخ الانتهاء *</label>
+                        <input type="text" id="cardExpiry" maxlength="5" placeholder="MM/YY">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="cardCVV">CVV *</label>
+                        <input type="text" id="cardCVV" maxlength="3" placeholder="123">
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" data-i18n="confirmOrder">تأكيد الطلب</button>
+                <button type="button" class="whatsapp-btn" onclick="orderViaWhatsApp()" data-i18n="whatsappOrder">تواصل واتساب</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img class="lightbox-content" id="lightboxImg" onclick="event.stopPropagation()">
+    </div>
+
+    <script>
+        const whatsappNumber = '201019336689';
+        let currentProduct = '';
+        let currentPrice = 0;
+        let cart = [];
+        let currentLang = 'ar';
+
+        const products = [
+            {id: 1, name: 'شنطة كروشيه يدوية', nameEn: 'Handmade Crochet Bag', price: 500, img: 'WhatsApp Image 2026-06-05 at 3.55.09 PM.jpeg'},
+            {id: 2, name: 'عروسه ارنوب كروشيه', nameEn: 'Bunny Crochet Doll', price: 900, img: 'WhatsApp Image 2026-06-05 at 3.55.39 PM.jpeg'},
+            {id: 3, name: 'منظمات كروشيه', nameEn: 'Crochet Organizers', price: 650, img: 'WhatsApp Image 2026-06-05 at 3.54.15 PM.jpeg'},
+            {id: 4, name: 'علاقة هاتف كروشيه', nameEn: 'Phone Crochet Holder', price: 200, img: 'WhatsApp Image 2026-06-05 at 4.02.37 PM.jpeg'},
+            {id: 5, name: 'عروسه كتكوت كروشيه', nameEn: 'Chick Crochet Doll', price: 800, img: 'WhatsApp Image 2026-06-05 at 4.24.59 PM.jpeg'},
+            {id: 6, name: 'طاقيه كروشيه', nameEn: 'Crochet Hat', price: 350, img: 'WhatsApp Image 2026-06-05 at 3.47.33 PM.jpeg'},
+            {id: 7, name: 'ايس كاب جانجا', nameEn: 'Rasta Ice Cap', price: 350, img: 'WhatsApp Image 2026-06-05 at 5.07.57 PM.jpeg'},
+            {id: 8, name: 'ايس كاب واسكارف كروشيه', nameEn: 'Ice Cap & Scarf Set', price: 750, img: 'WhatsApp Image 2026-06-05 at 4.58.40 PM.jpeg'},
+            {id: 9, name: 'اسكارف وافيل كروشيه', nameEn: 'Waffle Crochet Scarf', price: 450, img: 'WhatsApp Image 2026-06-05 at 4.58.41 PM.jpeg'},
+            {id: 10, name: 'بطانيه قطيفه', nameEn: 'Velvet Blanket 1x1m', price: 2200, img: 'WhatsApp Image 2026-06-05 at 5.03.59 PM.jpeg'},
+            {id: 11, name: 'ايس كاب وسكارف كروشيه', nameEn: 'Ice Cap & Scarf Set', price: 600, img: 'WhatsApp Image 2026-06-05 at 5.06.02 PM.jpeg'},
+            {id: 12, name: 'ايس كاب ارنب كروشيه', nameEn: 'Bunny Ice Cap', price: 300, img: 'WhatsApp Image 2026-06-05 at 5.06.39 PM.jpeg'}
+        ];
+
+        const translations = {
+            ar: {
+                title: 'متجر صدف للكروشيه',
+                sort: 'ترتيب:',
+                sortDefault: 'افتراضي',
+                sortNameAsc: 'أبجدي أ-ي',
+                sortNameDesc: 'أبجدي ي-أ',
+                sortPriceAsc: 'السعر: الأقل للأعلى',
+                sortPriceDesc: 'السعر: الأعلى للأقل',
+                cart: '🛒 سلة المشتريات',
+                cartTitle: 'سلة المشتريات',
+                checkout: 'إتمام الطلب',
+                clearCart: 'تفريغ السلة',
+                orderTitle: 'إتمام الطلب',
+                phone: 'رقم التليفون *',
+                address: 'العنوان بالتفصيل *',
+                addressPlaceholder: 'الشارع - المنطقة - المحافظة',
+                email: 'الإيميل (اختياري)',
+                payment: 'طريقة الدفع *',
+                selectPayment: 'اختر طريقة الدفع',
+                cash: 'كاش عند الاستلام',
+                visa: 'فيزا',
+                cardNumber: 'رقم البطاقة *',
+                cardExpiry: 'تاريخ الانتهاء *',
+                cardCVV: 'CVV *',
+                confirmOrder: 'تأكيد الطلب',
+                whatsappOrder: 'تواصل واتساب',
+                addToCart: 'أضف للسلة',
+                buyNow: 'شراء الآن',
+                price: 'السعر',
+                currency: 'ج.م',
+                emptyCart: 'السلة فارغة',
+                total: 'الإجمالي',
+                qty: 'الكمية',
+                remove: 'حذف',
+                orderFromCart: 'طلب من السلة',
+                products: 'منتج',
+                fillRequired: 'من فضلك املأ البيانات المطلوبة أولاً',
+                addedToCart: 'تمت إضافة',
+                toCart: 'للسلة',
+                confirmClear: 'متأكد عايز تفضي السلة؟',
+                orderConfirmed: 'تم تأكيد طلبك!',
+                product: 'المنتج',
+                orderMulti: 'المنتجات',
+                whatsappMsg: 'مرحبا، عايز اطلب',
+                whatsappInquiry: 'مرحبا، عايز استفسر عن منتجات صدف'
+            },
+            en: {
+                title: 'Sadaf Crochet Store',
+                sort: 'Sort:',
+                sortDefault: 'Default',
+                sortNameAsc: 'A-Z',
+                sortNameDesc: 'Z-A',
+                sortPriceAsc: 'Price: Low to High',
+                sortPriceDesc: 'Price: High to Low',
+                cart: '🛒 Shopping Cart',
+                cartTitle: 'Shopping Cart',
+                checkout: 'Checkout',
+                clearCart: 'Clear Cart',
+                orderTitle: 'Complete Order',
+                phone: 'Phone Number *',
+                address: 'Full Address *',
+                addressPlaceholder: 'Street - Area - City',
+                email: 'Email (Optional)',
+                payment: 'Payment Method *',
+                selectPayment: 'Select Payment Method',
+                cash: 'Cash on Delivery',
+                visa: 'Visa',
+                cardNumber: 'Card Number *',
+                cardExpiry: 'Expiry Date *',
+                cardCVV: 'CVV *',
+                confirmOrder: 'Confirm Order',
+                whatsappOrder: 'WhatsApp Order',
+                addToCart: 'Add to Cart',
+                buyNow: 'Buy Now',
+                price: 'Price',
+                currency: 'EGP',
+                emptyCart: 'Cart is empty',
+                total: 'Total',
+                qty: 'Qty',
+                remove: 'Remove',
+                orderFromCart: 'Order from Cart',
+                products: 'items',
+                fillRequired: 'Please fill required fields first',
+                addedToCart: 'Added',
+                toCart: 'to cart',
+                confirmClear: 'Are you sure you want to clear the cart?',
+                orderConfirmed: 'Order Confirmed!',
+                product: 'Product',
+                orderMulti: 'Products',
+                whatsappMsg: 'Hello, I want to order',
+                whatsappInquiry: 'Hello, I want to inquire about Sadaf products'
+            }
+        };
+
+        function t(key) {
+            return translations[currentLang][key] || key;
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar'? 'en' : 'ar';
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'ar'? 'rtl' : 'ltr';
+            document.body.dir = currentLang === 'ar'? 'rtl' : 'ltr';
+            document.getElementById('langBtn').innerText = currentLang === 'ar'? 'English' : 'عربي';
+            document.getElementById('whatsappFloat').href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(t('whatsappInquiry'))}`;
+            updateTexts();
+            renderProducts();
+        }
+
+        function updateTexts() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                el.innerText = t(key);
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                el.placeholder = t(key);
+            });
+        }
+
+        function renderProducts(list = products) {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = list.map(p => `
+                <div class="product-card">
+                    <img src="${p.img}" alt="${currentLang === 'ar'? p.name : p.nameEn}" class="product-img" onclick="openLightbox(this)">
+                    <h3>${currentLang === 'ar'? p.name : p.nameEn}</h3>
+                    <p>${t('price')}: ${p.price} ${t('currency')}</p>
+                    <button onclick="addToCart(${p.id}, event)" class="add-cart-btn">${t('addToCart')}</button>
+                    <button onclick="openOrderForm('${currentLang === 'ar'? p.name : p.nameEn}', ${p.price}, event)">${t('buyNow')}</button>
+                </div>
+            `).join('');
+        }
+
+        function sortProducts() {
+            const sortBy = document.getElementById('sortSelect').value;
+            let sorted = [...products];
+
+            if (sortBy === 'name-asc') {
+                sorted.sort((a, b) => (currentLang === 'ar'? a.name : a.nameEn).localeCompare(currentLang === 'ar'? b.name : b.nameEn, currentLang === 'ar'? 'ar' : 'en'));
+            } else if (sortBy === 'name-desc') {
+                sorted.sort((a, b) => (currentLang === 'ar'? b.name : b.nameEn).localeCompare(currentLang === 'ar'? a.name : a.nameEn, currentLang === 'ar'? 'ar' : 'en'));
+            } else if (sortBy === 'price-asc') {
+                sorted.sort((a, b) => a.price - b.price);
+            } else if (sortBy === 'price-desc') {
+                sorted.sort((a, b) => b.price - a.price);
+            }
+
+            renderProducts(sorted);
+        }
+
+        function addToCart(productId, event) {
+            if (event) event.stopPropagation();
+            const product = products.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({...product, qty: 1});
+            }
+
+            updateCartBadge();
+            alert(`${t('addedToCart')} ${currentLang === 'ar'? product.name : product.nameEn} ${t('toCart')}`);
+        }
+
+        function updateCartBadge() {
+            const total = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cartCount').innerText = total;
+        }
+
+        function openCart() {
+            const modal = document.getElementById('cartModal');
+            const itemsDiv = document.getElementById('cartItems');
+            const totalDiv = document.getElementById('cartTotal');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            const clearBtn = document.getElementById('clearBtn');
+
+            if (cart.length === 0) {
+                itemsDiv.innerHTML = `<div class="empty-cart">${t('emptyCart')}</div>`;
+                totalDiv.innerHTML = '';
+                checkoutBtn.style.display = 'none';
+                clearBtn.style.display = 'none';
+            } else {
+                itemsDiv.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <strong>${currentLang === 'ar'? item.name : item.nameEn}</strong><br>
+                            <span>${item.price} ${t('currency')} × ${item.qty} = ${item.price * item.qty} ${t('currency')}</span>
+                        </div>
+                        <div class="cart-item-controls">
+                            <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
+                            <button class="remove-btn" onclick="removeFromCart(${item.id})">${t('remove')}</button>
+                        </div>
+                    </div>
+                `).join('');
+
+                const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                totalDiv.innerHTML = `${t('total')}: ${total} ${t('currency')}`;
+                checkoutBtn.style.display = 'block';
+                clearBtn.style.display = 'block';
+            }
+
+            modal.style.display = 'block';
+            document.body.classList.add('modal-open');
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').style.display = 'none';
+            document.body.classList.remove('modal-open');
+        }
+
+        function updateQty(productId, change) {
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.qty += change;
+                if (item.qty <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    openCart();
+                    updateCartBadge();
+                }
+            }
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id!== productId);
+            updateCartBadge();
+            openCart();
+        }
+
+        function clearCart() {
+            if (confirm(t('confirmClear'))) {
+                cart = [];
+                updateCartBadge();
+                closeCart();
+            }
+        }
+
+        function checkoutCart() {
+            if (cart.length === 0) return;
+            closeCart();
+            currentProduct = t('orderMulti');
+            currentPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            document.getElementById('productTitle').innerText = t('orderFromCart');
+            document.getElementById('productPrice').innerText = `${t('total')}: ${currentPrice} ${t('currency')} (${cart.length} ${t('products')})`;
+            document.getElementById('orderModal').style.display = 'block';
+            document.body.classList.add('modal-open');
+            document.getElementById('orderForm').reset();
+            document.getElementById('visaFields').style.display = 'none';
+        }
+
+        function openOrderForm(productName, price, event) {
+            if (event) event.stopPropagation();
+            currentProduct = productName;
+            currentPrice = price;
+            document.getElementById('productTitle').innerText = t('orderTitle') + ': ' + productName;
+            document.getElementById('productPrice').innerText = `${t('price')}: ${price} ${t('currency')}`;
+            document.getElementById('orderModal').style.display = 'block';
+            document.body.classList.add('modal-open');
+            document.getElementById('orderForm').reset();
+            document.getElementById('visaFields').style.display = 'none';
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').style.display = 'none';
+            document.body.classList.remove('modal-open');
+        }
+
+        function toggleVisaFields() {
+            const payment = document.getElementById('paymentMethod').value;
+            const visaDiv = document.getElementById('visaFields');
+
+            if (payment === 'visa') {
+                visaDiv.style.display = 'block';
+                document.getElementById('cardNumber').required = true;
+                document.getElementById('cardExpiry').required = true;
+                document.getElementById('cardCVV').required = true;
+            } else {
+                visaDiv.style.display = 'none';
+                document.getElementById('cardNumber').required = false;
+                document.getElementById('cardExpiry').required = false;
+                document.getElementById('cardCVV').required = false;
+            }
+        }
+
+        function submitOrder(event) {
+            event.preventDefault();
+
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const email = document.getElementById('email').value;
+            const payment = document.getElementById('paymentMethod').value;
+
+            let message = `${t('orderConfirmed')}\n\n`;
+
+            if (currentProduct === t('orderMulti')) {
+                message += `${t('orderMulti')}:\n`;
+                cart.forEach(item => {
+                    message += `- ${currentLang === 'ar'? item.name : item.nameEn} × ${item.qty} = ${item.price * item.qty} ${t('currency')}\n`;
+                });
+            } else {
+                message += `${t('product')}: ${currentProduct}\n`;
+            }
+
+            message += `${t('price')}: ${currentPrice} ${t('currency')}\n${t('phone')}: ${phone}\n${t('address')}: ${address}\n${t('payment')}: ${payment === 'cash'? t('cash') : t('visa')}`;
+
+            if (email) {
+                message += `\n${t('email')}: ${email}`;
+            }
+
+            alert(message);
+            cart = [];
+            updateCartBadge();
+            closeModal();
+        }
+
+        function orderViaWhatsApp() {
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const email = document.getElementById('email').value;
+            const payment = document.getElementById('paymentMethod').value;
+
+            if (!phone || !address || !payment) {
+                alert(t('fillRequired'));
+                return;
+            }
+
+            let message = `${t('whatsappMsg')}:\n\n`;
+
+            if (currentProduct === t('orderMulti')) {
+                cart.forEach(item => {
+                    message += `*${currentLang === 'ar'? item.name : item.nameEn}* × ${item.qty} = ${item.price * item.qty} ${t('currency')}\n`;
+                });
+            } else {
+                message += `*${t('product')}:* ${currentProduct}\n`;
+            }
+
+            message += `*${t('total')}:* ${currentPrice} ${t('currency')}\n*${t('phone')}:* ${phone}\n*${t('address')}:* ${address}\n*${t('payment')}:* ${payment === 'cash'? t('cash') : t('visa')}`;
+
+            if (email) {
+                message += `\n*${t('email')}:* ${email}`;
+            }
+
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappURL, '_blank');
+            cart = [];
+            updateCartBadge();
+            closeModal();
+        }
+
+        function openLightbox(img) {
+            document.getElementById('lightbox').style.display = 'block';
+            document.getElementById('lightboxImg').src = img.src;
+            document.body.classList.add('modal-open');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+            document.body.classList.remove('modal-open');
+        }
+
+        window.onclick = function(event) {
+            const orderModal = document.getElementById('orderModal');
+            const cartModal = document.getElementById('cartModal');
+            if (event.target == orderModal) {
+                closeModal();
+            }
+            if (event.target == cartModal) {
+                closeCart();
+            }
+        }
+
+        document.getElementById('cardNumber').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            e.target.value = formattedValue;
+        });
+
+        document.getElementById('cardExpiry').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.slice(0,2) + '/' + value.slice(2,4);
+            }
+            e.target.value = value;
+        });
+
+        renderProducts();
+    </script>
+
+</body>
+</html>
