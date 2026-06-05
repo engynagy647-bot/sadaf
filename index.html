@@ -36,8 +36,7 @@
             direction: ltr;
         }
 
-        /* زرار اللغة ثابت فوق */
-     .lang-btn-top {
+    .lang-btn-top {
             position: fixed;
             top: 15px;
             left: 15px;
@@ -58,12 +57,12 @@
             right: 15px;
         }
 
-     .lang-btn-top:active {
+    .lang-btn-top:active {
             background-color: #3a7bc8;
             transform: scale(0.95);
         }
 
-     .header {
+    .header {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -72,7 +71,7 @@
             flex-wrap: wrap;
         }
 
-     .logo {
+    .logo {
             width: 70px;
             height: 70px;
             object-fit: cover;
@@ -87,7 +86,7 @@
             margin: 0;
         }
 
-     .toolbar {
+    .toolbar {
             max-width: 1200px;
             margin: 0 auto 20px;
             display: flex;
@@ -97,13 +96,13 @@
             flex-wrap: wrap;
         }
 
-     .sort-group {
+    .sort-group {
             display: flex;
             gap: 10px;
             align-items: center;
         }
 
-     .sort-group select {
+    .sort-group select {
             padding: 10px;
             border: 2px solid var(--sand);
             border-radius: 8px;
@@ -112,7 +111,7 @@
             cursor: pointer;
         }
 
-     .cart-icon {
+    .cart-icon {
             position: relative;
             background-color: var(--sea-blue);
             color: white;
@@ -126,7 +125,7 @@
             min-height: 44px;
         }
 
-     .cart-badge {
+    .cart-badge {
             background-color: var(--coral);
             color: white;
             border-radius: 50%;
@@ -139,7 +138,7 @@
             font-weight: bold;
         }
 
-     .product-grid {
+    .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
@@ -153,21 +152,21 @@
                 padding-top: 65px;
                 padding-bottom: 100px;
             }
-        .product-grid {
+       .product-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 12px;
             }
-        .product-card {
+       .product-card {
                 padding: 12px;
             }
-        .product-img {
+       .product-img {
                 height: 160px;
             }
             h3 {
                 font-size: 14px;
                 margin: 8px 0;
             }
-        .product-card p {
+       .product-card p {
                 font-size: 13px;
                 margin: 5px 0;
             }
@@ -176,27 +175,27 @@
                 font-size: 13px;
                 width: 100%;
             }
-        .logo {
+       .logo {
                 width: 50px;
                 height: 50px;
             }
             h1 {
                 font-size: 22px;
             }
-        .toolbar {
+       .toolbar {
                 flex-direction: column;
             }
-        .sort-group {
+       .sort-group {
                 width: 100%;
             }
-        .sort-group select {
+       .sort-group select {
                 flex: 1;
             }
-        .cart-icon {
+       .cart-icon {
                 width: 100%;
                 justify-content: center;
             }
-        .lang-btn-top {
+       .lang-btn-top {
                 top: 10px;
                 left: 10px;
                 padding: 8px 14px;
@@ -208,7 +207,7 @@
             }
         }
 
-    .product-card {
+   .product-card {
             background: white;
             border: 2px solid var(--sand);
             border-radius: 15px;
@@ -217,13 +216,13 @@
             transition: 0.3s;
         }
 
-    .product-card:hover {
+   .product-card:hover {
             border-color: var(--sea-blue);
             transform: translateY(-5px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-    .product-img {
+   .product-img {
             width: 100%;
             height: 200px;
             object-fit: cover;
@@ -235,7 +234,7 @@
             user-select: none;
         }
 
-    .product-img:active {
+   .product-img:active {
             opacity: 0.7;
         }
 
@@ -259,15 +258,15 @@
             transform: scale(0.98);
         }
 
-    .add-cart-btn {
+   .add-cart-btn {
             background-color: var(--sea-blue);
         }
 
-    .add-cart-btn:active {
+   .add-cart-btn:active {
             background-color: #3a7bc8;
         }
 
-    .whatsapp-float {
+   .whatsapp-float {
             position: fixed;
             bottom: 20px;
             left: 20px;
@@ -292,21 +291,23 @@
             right: 20px;
         }
 
-    .whatsapp-float:hover {
+   .whatsapp-float:hover {
             transform: scale(1.1);
         }
 
-    .whatsapp-btn {
+   .whatsapp-btn {
             background-color: var(--whatsapp);
             width: 100%;
             margin-top: 10px;
+            font-size: 16px;
+            padding: 14px;
         }
 
-    .whatsapp-btn:hover {
+   .whatsapp-btn:hover {
             background-color: #1fb855;
         }
 
-    .modal {
+   .modal {
             display: none;
             position: fixed;
             z-index: 1000;
@@ -323,7 +324,7 @@
             to {opacity: 1;}
         }
 
-    .modal-content {
+   .modal-content {
             background-color: white;
             margin: 5% auto;
             padding: 25px;
@@ -335,7 +336,7 @@
             overflow-y: auto;
         }
 
-    .close {
+   .close {
             color: #aaa;
             float: left;
             font-size: 32px;
@@ -350,9 +351,9 @@
             float: right;
         }
 
-    .close:active { color: var(--coral); }
+   .close:active { color: var(--coral); }
 
-    .form-group {
+   .form-group {
             margin-bottom: 15px;
             text-align: right;
         }
@@ -361,14 +362,14 @@
             text-align: left;
         }
 
-    .form-group label {
+   .form-group label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
             color: var(--sea-blue);
         }
 
-    .form-group input,.form-group select {
+   .form-group input,.form-group select {
             width: 100%;
             padding: 12px;
             border: 2px solid var(--sand);
@@ -378,7 +379,7 @@
             font-size: 16px;
         }
 
-    .form-group input:focus,.form-group select:focus {
+   .form-group input:focus,.form-group select:focus {
             outline: none;
             border-color: var(--sea-blue);
         }
@@ -391,14 +392,14 @@
             margin-top: 10px;
         }
 
-    .submit-btn {
+   .submit-btn {
             width: 100%;
             margin-top: 10px;
             padding: 14px;
             font-size: 16px;
         }
 
-    .lightbox {
+   .lightbox {
             display: none;
             position: fixed;
             z-index: 2000;
@@ -410,7 +411,7 @@
             animation: fadeIn 0.3s;
         }
 
-    .lightbox-content {
+   .lightbox-content {
             margin: auto;
             display: block;
             max-width: 90%;
@@ -422,7 +423,7 @@
             border-radius: 10px;
         }
 
-    .lightbox-close {
+   .lightbox-close {
             position: absolute;
             top: 10px;
             left: 20px;
@@ -440,7 +441,7 @@
             right: 20px;
         }
 
-    .cart-item {
+   .cart-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -449,7 +450,7 @@
             gap: 10px;
         }
 
-    .cart-item-info {
+   .cart-item-info {
             flex: 1;
             text-align: right;
         }
@@ -458,13 +459,13 @@
             text-align: left;
         }
 
-    .cart-item-controls {
+   .cart-item-controls {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-    .qty-btn {
+   .qty-btn {
             background-color: var(--sea-blue);
             color: white;
             border: none;
@@ -477,17 +478,17 @@
             min-height: 32px;
         }
 
-    .qty-btn:active {
+   .qty-btn:active {
             background-color: #3a7bc8;
         }
 
-    .remove-btn {
+   .remove-btn {
             background-color: #ff4444;
             padding: 8px 12px;
             font-size: 13px;
         }
 
-    .cart-total {
+   .cart-total {
             background-color: var(--sand);
             padding: 15px;
             border-radius: 10px;
@@ -498,7 +499,7 @@
             color: var(--sea-blue);
         }
 
-    .empty-cart {
+   .empty-cart {
             text-align: center;
             padding: 40px 20px;
             color: #999;
@@ -507,7 +508,6 @@
 </head>
 <body>
 
-    <!-- زرار اللغة ثابت فوق -->
     <button class="lang-btn-top" onclick="toggleLanguage()" id="langBtn">English</button>
 
     <div class="header">
@@ -595,8 +595,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="submit-btn" data-i18n="confirmOrder">تأكيد الطلب</button>
-                <button type="button" class="whatsapp-btn" onclick="orderViaWhatsApp()" data-i18n="whatsappOrder">تواصل واتساب</button>
+                <button type="submit" class="whatsapp-btn" data-i18n="confirmOrderWhatsApp">تأكيد الطلب واتساب</button>
             </form>
         </div>
     </div>
@@ -653,8 +652,7 @@
                 cardNumber: 'رقم البطاقة *',
                 cardExpiry: 'تاريخ الانتهاء *',
                 cardCVV: 'CVV *',
-                confirmOrder: 'تأكيد الطلب',
-                whatsappOrder: 'تواصل واتساب',
+                confirmOrderWhatsApp: 'تأكيد الطلب واتساب',
                 addToCart: 'أضف للسلة',
                 buyNow: 'شراء الآن',
                 price: 'السعر',
@@ -699,8 +697,7 @@
                 cardNumber: 'Card Number *',
                 cardExpiry: 'Expiry Date *',
                 cardCVV: 'CVV *',
-                confirmOrder: 'Confirm Order',
-                whatsappOrder: 'WhatsApp Order',
+                confirmOrderWhatsApp: 'Confirm Order via WhatsApp',
                 addToCart: 'Add to Cart',
                 buyNow: 'Buy Now',
                 price: 'Price',
@@ -924,35 +921,7 @@
             const email = document.getElementById('email').value;
             const payment = document.getElementById('paymentMethod').value;
 
-            let message = `${t('orderConfirmed')}\n\n`;
-
-            if (currentProduct === t('orderMulti')) {
-                message += `${t('orderMulti')}:\n`;
-                cart.forEach(item => {
-                    message += `- ${currentLang === 'ar'? item.name : item.nameEn} × ${item.qty} = ${item.price * item.qty} ${t('currency')}\n`;
-                });
-            } else {
-                message += `${t('product')}: ${currentProduct}\n`;
-            }
-
-            message += `${t('price')}: ${currentPrice} ${t('currency')}\n${t('phone')}: ${phone}\n${t('address')}: ${address}\n${t('payment')}: ${payment === 'cash'? t('cash') : t('visa')}`;
-
-            if (email) {
-                message += `\n${t('email')}: ${email}`;
-            }
-
-            alert(message);
-            cart = [];
-            updateCartBadge();
-            closeModal();
-        }
-
-        function orderViaWhatsApp() {
-            const phone = document.getElementById('phone').value;
-            const address = document.getElementById('const email' )= document.getElementById('email').value;
-            const payment = document.getElementById('paymentMethod').value;
-
-            if (!phone || !address || !payment) {
+            if (!phone ||!address ||!payment) {
                 alert(t('fillRequired'));
                 return;
             }
@@ -982,6 +951,7 @@
 
         function openLightbox(img) {
             document.getElementById('lightbox').style.display = 'block';
+                        document.getElementById('lightbox').style.display = 'block';
             document.getElementById('lightboxImg').src = img.src;
             document.body.classList.add('modal-open');
         }
