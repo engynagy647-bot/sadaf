@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>التراكر الذكي الصحي</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Tajawal',sans-serif}
+  body{
+    background:url('https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=1920') no-repeat center fixed;
+    background-size:cover;
+    min-height:100vh;
+    padding:20px;
+    backdrop-filter:blur(2px)
+  }
+.container{max-width:900px;margin:auto;background:rgba(255,255,255,0.97);border-radius:22px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,0.25)}
+  h1{color:#15803d;text-align:center;margin-bottom:25px;font-size:28px}
+.card{background:#f0fdf4;border:2px solid #bbf7d0;border-radius:18px;padding:22px;margin-bottom:20px}
+  h2{color:#166534;font-size:18px;margin-bottom:15px;border-right:5px solid #22c55e;padding-right:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  label{font-weight:700;color:#14532d;margin-bottom:6px;display:block;font-size:14px}
+  input,select{width:100%;padding:12px;border:2px solid #86efac;border-radius:10px;font-size:15px;background:#fff}
+  input:focus,select:focus{border-color:#22c55e;outline:none;box-shadow:0 0 0 3px rgba(34,197,94,0.15)}
+.btn{width:100%;background:#22c55e;color:#fff;border:none;padding:15px;border-radius:12px;font-weight:bold;font-size:16px;cursor:pointer;margin-top:10px;transition:0.2s}
+.btn:hover{background:#16a34a;transform:translateY(-2px)}
+.btn-ai{background:linear-gradient(135deg,#16a34a,#15803d)}
+.suggestions{position:relative}
+.list{position:absolute;width:100%;background:#fff;border:2px solid #86efac;border-radius:10px;max-height:220px;overflow-y:auto;z-index:20;display:none;box-shadow:0 5px 20px rgba(0,0,0,0.1)}
+.item{padding:12px;cursor:pointer;border-bottom:1px solid #dcfce7;font-size:14px}
+.item:hover{background:#f0fdf4}
+.food-item{background:#fff;border:1px solid #dcfce7;padding:14px;border-radius:12px;margin:8px 0;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.food-item img{width:65px;height:65px;border-radius:10px;object-fit:cover}
+.totals{background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;border-radius:18px;padding:22px;margin-top:20px;text-align:center}
+.totals-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.totals span{font-size:28px;font-weight:bold;display:block}
+.meal-card{background:#dcfce7;border:2px dashed #22c55e;border-radius:14px;padding:16px;margin-top:12px}
+.meal-card h4{color:#166534;margin-bottom:10px;font-size:16px}
+.meal-items{font-size:14px;line-height:1.9;color:#14532d;margin-bottom:8px}
+.macros span{background:#bbf7d0;color:#166534;padding:6px 10px;border-radius:7px;font-size:13px;margin:3px;display:inline-block;font-weight:600}
+.delete-btn{background:#ef4444;padding:6px 12px;font-size:13px;border:none;color:#fff;border-radius:7px;cursor:pointer}
+.checkbox-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:8px}
+.checkbox-grid label{font-weight:500;font-size:13px;display:flex;align-items:center;gap:6px}
+.warning{color:#dc2626;font-size:12px;margin-top:5px}
+/* جديد BMI */
+.bmi-box{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;border-radius:16px;padding:20px;margin-top:15px;text-align:center}
+.bmi-value{font-size:48px;font-weight:bold;margin:10px 0}
+.bmi-status{font-size:18px;margin-top:8px}
+.bmi-desc{font-size:14px;margin-top:5px;opacity:0.9}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🥬🥬 ظبط يومك 🥬🥬</h1>
+
+  <!-- 1. بيانات المريض + الأمراض -->
+  <div class="card">
+    <h2>1. بياناتك الصحية الأول</h2>
+    <div class="grid">
+      <div><label>الاسم</label><input type="text" id="pName" placeholder="اسمك"></div>
+      <div><label>الوزن kg</label><input type="number" id="pWeight" placeholder="70" oninput="calcBMI()"></div>
+      <div><label>الطول cm</label><input type="number" id="pHeight" placeholder="170" oninput="calcBMI()"></div>
+      <div><label>العمر</label><input type="number" id="pAge" placeholder="30"></div>
+      <div><label>هدف السعرات اليومي</label><input type="number" id="calGoal" value="1500"></div>
+      <div><label>هدف البروتين جم</label><input type="number" id="proGoal" value="120"></div>
+    </div>
+    <label style="margin-top:12px">هل عندك أي أمراض/حساسيات؟</label>
+    <div class="checkbox-grid">
+      <label><input type="checkbox" id="d_sugar"> سكر</label>
+      <label><input type="checkbox" id="d_pressure"> ضغط</label>
+      <label><input type="checkbox" id="d_gluten"> حساسية جلوتين</label>
+      <label><input type="checkbox" id="d_lactose"> حساسية ألبان</label>
+      <label><input type="checkbox" id="d_kidney"> مشاكل كلى</label>
+    </div>
+    <button class="btn" onclick="savePatient()">💾 حفظ البيانات الصحية</button>
+
+    <!-- جديد: نتيجة BMI -->
+    <div id="bmiResult" class="bmi-box" style="display:none">
+      <h3>📊 تحليل جسمك</h3>
+      <div class="bmi-value" id="bmiValue">0</div>
+      <div class="bmi-status" id="bmiStatus">-</div>
+      <div class="bmi-desc" id="bmiDesc">-</div>
+      <div style="margin-top:12px;font-size:14px">
+        <span id="bodyType"></span> | <span id="fatPercent"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. إضافة وجبة -->
+  <div class="card">
+    <h2>2. سجلي وجباتك</h2>
+    <div class="suggestions">
+      <label>اسم الأكلة</label>
+      <input type="text" id="foodInput" placeholder="اكتبي: فراخ، رز، بيض..." oninput="searchFood()">
+      <div id="list" class="list"></div>
+    </div>
+    <div class="grid" style="margin-top:10px">
+      <div><label>الوزن بالجرام</label><input type="number" id="gramsInput" value="100"></div>
+      <div><label>صورة الوجبة - اختياري</label><input type="file" id="foodImg" accept="image/*" onchange="previewImg(event)"></div>
+    </div>
+    <img id="previewImg" style="max-width:120px;border-radius:10px;margin-top:10px;display:none">
+    <button class="btn" onclick="calculate()">🧮 احسب واضف للسجل</button>
+  </div>
+
+  <!-- 3. سجل اليوم -->
+  <div class="card">
+    <h2>3. سجل وجبات اليوم</h2>
+    <div id="logList"></div>
+    <div class="totals">
+      <h3>إجمالي اليوم</h3>
+      <div class="totals-grid">
+        <div><span id="tCal">0</span>سعرات</div>
+        <div><span id="tPro">0</span>بروتين</div>
+        <div><span id="tFat">0</span>دهون</div>
+        <div><span id="tCarb">0</span>كارب</div>
+        <div><span id="calLeft">1500</span>متبقي</div>
+      </div>
+    </div>
+    <button class="btn" style="background:#ef4444;margin-top:15px" onclick="clearDay()">🗑️ مسح اليوم كله</button>
+  </div>
+
+  <!-- 4. الذكاء الاصطناعي -->
+  <div class="card">
+    <h2>4. 🤖 الذكاء الاصطناعي يقترحلك وجبات</h2>
+    <label>فاضلك كام سعر؟</label>
+    <input type="number" id="calTarget" placeholder="هيتحدد أوتوماتيك من فوق">
+    <label>نوع الوجبة</label>
+    <select id="mealType">
+      <option value="any">أي حاجة متوازنة</option>
+      <option value="high_pro">عالي بروتين</option>
+      <option value="low_carb">قليل كارب - مناسب للسكر</option>
+      <option value="low_sodium">قليل صوديوم - مناسب للضغط</option>
+      <option value="snack">سناك خفيف</option>
+    </select>
+    <button class="btn btn-ai" onclick="suggestMeals()">✨ اقترحلي 3 وجبات دلوقتي</button>
+    <div id="aiResults"></div>
+  </div>
+</div>
+
+<script>
+// قاعدة بيانات 60 أكلة صحية لكل 100جم + علامات الأمراض
+const db = {
+"صدور فراخ مشوية":{c:165,p:31,f:3.6,cb:0,gluten:0,dairy:0,sodium:70},
+"ورك فراخ بدون جلد":{c:209,p:26,f:11,cb:0,gluten:0,dairy:0,sodium:80},
+"بيضة مسلوقة":{c:155,p:12.6,f:10.6,cb:1.1,gluten:0,dairy:0,sodium:125},
+"ارز بسمتي مسلوق":{c:121,p:2.6,f:0.3,cb:25.6,gluten:0,dairy:0,sodium:5},
+"ارز ابيض مسلوق":{c:130,p:2.4,f:0.3,cb:28,gluten:0,dairy:0,sodium:5},
+"مكرونة بدون جلوتين":{c:131,p:5.1,f:1.1,cb:25,gluten:0,dairy:0,sodium:5},
+"خبز بلدي":{c:280,p:9,f:2,cb:58,gluten:1,dairy:0,sodium:400},
+"شوفان":{c:389,p:16.9,f:6.9,cb:66,gluten:1,dairy:0,sodium:2},
+"بطاطس مسلوقة":{c:87,p:2,f:0.1,cb:20,gluten:0,dairy:0,sodium:10},
+"بطاطا مشوية":{c:86,p:1.6,f:0.1,cb:20,gluten:0,dairy:0,sodium:10},
+"زبادي يوناني":{c:100,p:10,f:5,cb:4,gluten:0,dairy:1,sodium:50},
+"زبادي خالي لاكتوز":{c:100,p:10,f:5,cb:4,gluten:0,dairy:0,sodium:50},
+"جبنة قريش":{c:98,p:11,f:4.3,cb:3.4,gluten:0,dairy:1,sodium:300},
+"تونة مصفاة":{c:116,p:26,f:1,cb:0,gluten:0,dairy:0,sodium:200},
+"سمك مشوي":{c:128,p:26,f:2.7,cb:0,gluten:0,dairy:0,sodium:60},
+"لحمة مفرومة":{c:250,p:26,f:15,cb:0,gluten:0,dairy:0,sodium:70},
+"عدس مسلوق":{c:116,p:9,f:0.4,cb:20,gluten:0,dairy:0,sodium:10},
+"حمص مسلوق":{c:164,p:8.9,f:2.6,cb:27,gluten:0,dairy:0,sodium:10},
+"فول مدمس بدون زيت":{c:110,p:7.6,f:0.7,cb:20,gluten:0,dairy:0,sodium:15},
+"موز":{c:89,p:1.1,f:0.3,cb:23,gluten:0,dairy:0,sodium:1},
+"تفاح":{c:52,p:0.3,f:0.2,cb:14,gluten:0,dairy:0,sodium:1},
+"برتقال":{c:47,p:0.9,f:0.1,cb:12,gluten:0,dairy:0,sodium:0},
+"فراولة":{c:32,p:0.7,f:0.3,cb:7.7,gluten:0,dairy:0,sodium:1},
+"خيار":{c:16,p:0.7,f:0.1,cb:3.6,gluten:0,dairy:0,sodium:2},
+"طماطم":{c:18,p:0.9,f:0.2,cb:3.9,gluten:0,dairy:0,sodium:5},
+"سلطة خضار":{c:20,p:0.8,f:0.2,cb:4,gluten:0,dairy:0,sodium:5},
+"لوز":{c:579,p:21,f:50,cb:22,gluten:0,dairy:0,sodium:1},
+"زيت زيتون":{c:884,p:0,f:100,cb:0,gluten:0,dairy:0,sodium:0},
+"جبنة رومي":{c:400,p:24,f:32,cb:2,gluten:0,dairy:1,sodium:800}
+};
+
+let selectedFood = null;
+let dayLog = JSON.parse(localStorage.getItem('smartLog')) || [];
+let patient = JSON.parse(localStorage.getItem('smartPatient')) || {};
+let imgData = '';
+
+function savePatient(){
+  patient = {
+    name:pName.value,
+    weight:+pWeight.value,
+    height:+pHeight.value,
+    age:+pAge.value,
+    calGoal:+calGoal.value,
+    proGoal:+proGoal.value,
+    diseases:{
+      sugar:d_sugar.checked,
+      pressure:d_pressure.checked,
+      gluten:d_gluten.checked,
+      lactose:d_lactose.checked,
+      kidney:d_kidney.checked
+    }
+  };
+  localStorage.setItem('smartPatient', JSON.stringify(patient));
+  calTarget.value = patient.calGoal;
+  alert('تم حفظ بياناتك الصحية ✅ الذكاء الاصطناعي هيراعي أمراضك دلوقتي');
+  calcBMI();
+  renderLog();
+}
+
+// جديد: حساب BMI وطبيعة الجسم
+function calcBMI(){
+  let w = parseFloat(pWeight.value);
+  let h = parseFloat(pHeight.value);
+
+  if(!w ||!h || h <= 0) {
+    document.getElementById('bmiResult').style.display = 'none';
+    return;
+  }
+
+  let h_m = h / 100; // تحويل ل متر
+  let bmi = w / (h_m * h_m);
+  bmi = bmi.toFixed(1);
+
+  // تحديد الحالة
+  let status = '';
+  let desc = '';
+  let color = '#22c55e';
+
+  if(bmi < 18.5){
+    status = 'نحافة';
+    desc = 'وزنك أقل من الطبيعي. محتاجة تزودي سعرات + بروتين';
+    color = '#3b82f6';
+  } else if(bmi < 25){
+    status = 'وزن طبيعي ✅';
+    desc = 'ممتاز! حافظي على نظامك الصحي';
+    color = '#22c55e';
+  } else if(bmi < 30){
+    status = 'زيادة وزن';
+    desc = 'وزنك أعلى من الطبيعي بشوية. قللي 300-500 سعر';
+    color = '#f59e0b';
+  } else if(bmi < 35){
+    status = 'سمنة درجة أولى';
+    desc = 'محتاجة دايت + رياضة عشان صحتك';
+    color = '#ef4444';
+  } else {
+    status = 'سمنة مفرطة';
+    desc = 'استشيري دكتور تغذية ضروري';
+    color = '#dc2626';
+  }
+
+  // تقدير نسبة الدهون Deurenberg formula
+  let age = parseFloat(pAge.value) || 30;
+  let fatPercent = (1.20 * bmi) + (0.23 * age) - 16.2; // تقريبي للستات
+  fatPercent = fatPercent.toFixed(1);
+
+  // تحديد طبيعة الجسم
+  let bodyType = '';
+  if(bmi < 20) bodyType = 'إكتومورف - جسم نحيف سريع الحرق';
+  else if(bmi < 27) bodyType = 'ميزومورف - جسم رياضي عضلي';
+  else bodyType = 'إندومورف - جسم يخزن دهون بسهولة';
+
+  // عرض النتيجة
+  document.getElementById('bmiResult').style.display = 'block';
+  document.getElementById('bmiResult').style.background = `linear-gradient(135deg,${color},${color}dd)`;
+  document.getElementById('bmiValue').textContent = bmi;
+  document.getElementById('bmiStatus').textContent = status;
+  document.getElementById('bmiDesc').textContent = desc;
+  document.getElementById('bodyType').textContent = `طبيعة الجسم: ${bodyType}`;
+  document.getElementById('fatPercent').textContent = `نسبة الدهون التقريبية: ${fatPercent}%`;
+}
+
+function searchFood(){
+  let val = foodInput.value.toLowerCase().trim();
+  let box = document.getElementById('list');
+  if(val.length < 2){box.style.display='none'; return;}
+  let matches = Object.keys(db).filter(k => k.includes(val)).slice(0,12);
+  box.innerHTML = matches.map(k =>
+    `<div class="item" onclick="pickFood('${k}')">${k} - ${db[k].c} سعر/100جم</div>`
+  ).join('');
+  box.style.display = matches.length? 'block' : 'none';
+}
+
+function pickFood(name){
+  selectedFood = name;
+  foodInput.value = name;
+  document.getElementById('list').style.display = 'none';
+}
+
+function previewImg(e){
+  let file = e.target.files[0];
+  let reader = new FileReader();
+  reader.onload = ev => {
+    imgData = ev.target.result;
+    previewImg.src = imgData;
+    previewImg.style.display = 'block';
+  }
+  reader.readAsDataURL(file);
+}
+
+function calculate(){
+  if(!selectedFood) return alert('اختاري الأكلة من القائمة');
+  let grams = +gramsInput.value;
+  if(!grams) return alert('اكتبي الوزن');
+
+  let data = db[selectedFood];
+  let f = grams/100;
+
+  let item = {
+    name:selectedFood,
+    grams,
+    cal:data.c*f,
+    pro:data.p*f,
+    fat:data.f*f,
+    carb:data.cb*f,
+    img:imgData,
+    time:new Date().toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'})
+  };
+
+  dayLog.push(item);
+  localStorage.setItem('smartLog', JSON.stringify(dayLog));
+  renderLog();
+  resetForm();
+}
+
+function renderLog(){
+  let totalCal=0, totalPro=0, totalFat=0, totalCarb=0;
+
+  logList.innerHTML = dayLog.map((item,i) => {
+    totalCal += item.cal;
+    totalPro += item.pro;
+    totalFat += item.fat;
+    totalCarb += item.carb;
+    return `
+      <div class="food-item">
+        <div style="flex:1">
+          <b>${item.name}</b> - ${item.grams}جم <small style="color:#64748b">${item.time}</small><br>
+          🔥${item.cal.toFixed(0)} سعر | 💪${item.pro.toFixed(1)} بروتين | 🥑${item.fat.toFixed(1)} دهون
+        </div>
+        ${item.img?`<img src="${item.img}">`:''}
+        <button class="delete-btn" onclick="delItem(${i})">حذف</button>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('tCal').textContent = totalCal.toFixed(0);
+  document.getElementById('tPro').textContent = totalPro.toFixed(1);
+  document.getElementById('tFat').textContent = totalFat.toFixed(1);
+  document.getElementById('tCarb').textContent = totalCarb.toFixed(1);
+  let left = (patient.calGoal || 1500) - totalCal;
+  document.getElementById('calLeft').textContent = left > 0? left.toFixed(0) : 0;
+  document.getElementById('calTarget').value = left > 0? left.toFixed(0) : 0;
+}
+
+function delItem(i){
+  dayLog.splice(i,1);
+  localStorage.setItem('smartLog', JSON.stringify(dayLog));
+  renderLog();
+}
+
+function clearDay(){
+  if(confirm('تمسحي سجل اليوم كله؟')){
+    dayLog = [];
+    localStorage.setItem('smartLog', '[]');
+    renderLog();
+  }
+}
+
+function resetForm(){
+  foodInput.value='';
+  gramsInput.value=100;
+  selectedFood=null;
+  foodImg.value='';
+  previewImg.style.display='none';
+  imgData='';
+}
+
+// الذكاء الاصطناعي - يشتغل على أي رقم
+function suggestMeals(){
+  let target = parseFloat(document.getElementById('calTarget').value);
+  let type = document.getElementById('mealType').value;
+
+  if(!target || target <= 0){
+    aiResults.innerHTML = '<div class="warning">اكتبي السعرات المتبقية الأول 💚</div>';
+    return;
+  }
+
+  let allowedFoods = Object.keys(db).filter(food => {
+    let data = db[food];
+    if(patient.diseases?.gluten && data.gluten) return false;
+    if(patient.diseases?.lactose && data.dairy) return false;
+    if(patient.diseases?.pressure && data.sodium > 300) return false;
+    if(patient.diseases?.sugar && data.cb > 30 && data.p < 5) return false;
+    return true;
+  });
+
+  if(allowedFoods.length == 0){
+    aiResults.innerHTML = '<div class="warning">مفيش أكل مناسب لأمراضك في قاعدة البيانات حالياً</div>';
+    return;
+  }
+
+  let baseTemplates = {
+    high_pro: [
+      [{food:"صدور فراخ مشوية",g:100},{food:"بيضة مسلوقة",g:100},{food:"سلطة خضار",g:150}],
+      [{food:"تونة مصفاة",g:100},{food:"جبنة قريش",g:150}],
+      [{food:"زبادي يوناني",g:200},{food:"لوز",g:15}]
+    ],
+    low_carb: [
+      [{food:"بيضة مسلوقة",g:150},{food:"جبنة قريش",g:100},{food:"خيار",g:200}],
+      [{food:"تونة مصفاة",g:120},{food:"سلطة خضار",g:200}],
+      [{food:"صدور فراخ مشوية",g:100},{food:"خيار",g:150}]
+    ],
+    low_sodium: [
+      [{food:"صدور فراخ مشوية",g:100},{food:"ارز بسمتي مسلوق",g:80},{food:"سلطة خضار",g:150}],
+      [{food:"بطاطا مشوية",g:150},{food:"زبادي يوناني",g:100}],
+      [{food:"سمك مشوي",g:120},{food:"خيار",g:200}]
+    ],
+    snack: [
+      [{food:"زبادي يوناني",g:150},{food:"تفاح",g:100}],
+      [{food:"لوز",g:15},{food:"خيار",g:150}],
+      [{food:"موز",g:100},{food:"زبادي يوناني",g:100}]
+    ],
+    any: [
+      [{food:"صدور فراخ مشوية",g:100},{food:"ارز بسمتي مسلوق",g:80},{food:"سلطة خضار",g:150}],
+      [{food:"بيضة مسلوقة",g:100},{food:"بطاطس مسلوقة",g:120},{food:"زبادي يوناني",g:100}],
+      [{food:"شوفان",g:40},{food:"موز",g:100},{food:"لوز",g:10}]
+    ]
+  };
+
+  let templates = baseTemplates[type] || baseTemplates.any;
+  let html = `<h3 style="color:#15803d;margin:15px 0">3 وجبات محسوبة بالذكاء الاصطناعي لـ ${target} سعر:</h3>`;
+
+  templates.forEach((template, idx) => {
+    let filtered = template.filter(it => allowedFoods.includes(it.food));
+    if(filtered.length == 0) filtered = template.slice(0,1);
+
+    let baseCal = 0;
+    filtered.forEach(it => baseCal += db[it.food].c * it.g / 100);
+
+    let scale = target / baseCal;
+    scale = Math.max(0.3, Math.min(2.5, scale));
+
+    let tCal=0, tPro=0, tFat=0, tCarb=0;
+    let itemsHtml = '';
+    let warnings = [];
+
+    filtered.forEach(it => {
+      let newG = Math.round(it.g * scale / 5) * 5;
+      let data = db[it.food];
+      let f = newG / 100;
+
+      tCal += data.c * f;
+      tPro += data.p * f;
+      tFat += data.f * f;
+      tCarb += data.cb * f;
+
+      itemsHtml += `• ${it.food} <b>${newG}جم</b><br>`;
+
+      if(patient.diseases?.sugar && data.cb > 25 && data.p < 5) warnings.push('كارب عالي للسكر');
+      if(patient.diseases?.pressure && data.sodium > 200) warnings.push('صوديوم عالي للضغط');
+    });
+
+    let mealName = ["وجبة 1","وجبة 2","وجبة 3"][idx];
+    html += `
+      <div class="meal-card">
+        <h4>${mealName}: ${target} سعر بالظبط</h4>
+        <div class="meal-items">${itemsHtml}</div>
+        <div class="macros">
+          <span>🔥 ${tCal.toFixed(0)} سعر</span>
+          <span>💪 ${tPro.toFixed(1)} بروتين</span>
+          <span>🥑 ${tFat.toFixed(1)} دهون</span>
+          <span>🍞 ${tCarb.toFixed(1)} كارب</span>
+        </div>
+        ${warnings.length? `<div class="warning">⚠️ ${warnings.join('، ')}</div>` : ''}
+        <button class="btn" style="font-size:13px;padding:10px;margin-top:8px" onclick="addMealToLog('${mealName}', ${JSON.stringify(filtered).replace(/"/g,'&quot;')}, ${scale})">➕ أضيفها لسجلي</button>
+      </div>
+    `;
+  });
+
+  aiResults.innerHTML = html;
+  aiResults.scrollIntoView({behavior:'smooth'});
+}
+
+function addMealToLog(name, items, scale){
+  items.forEach(it => {
+    let newG = Math.round(it.g * scale / 5) * 5;
+    let data = db[it.food];
+    let f = newG / 100;
+    dayLog.push({
+      name:`${name}: ${it.food}`,
+      grams:newG,
+      cal:data.c*f,
+      pro:data.p*f,
+      fat:data.f*f,
+      carb:data.cb*f,
+      time:new Date().toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'})
+    });
+  });
+  localStorage.setItem('smartLog', JSON.stringify(dayLog));
+  renderLog();
+  alert('تم إضافة الوجبة الكاملة لسجلك ✅');
+}
+
+// تحميل البيانات
+window.onload = () => {
+  if(patient.name){
+    pName.value = patient.name;
+    pWeight.value = patient.weight;
+    pHeight.value = patient.height;
+    pAge.value = patient.age;
+    calGoal.value = patient.calGoal;
+    proGoal.value = patient.proGoal;
+    if(patient.diseases){
+      d_sugar.checked = patient.diseases.sugar;
+      d_pressure.checked = patient.diseases.pressure;
+      d_gluten.checked = patient.diseases.gluten;
+      d_lactose.checked = patient.diseases.lactose;
+      d_kidney.checked = patient.diseases.kidney;
+    }
+  }
+  calcBMI();
+  renderLog();
+};
+
+document.addEventListener('click', e => {
+  if(!e.target.closest('#foodInput') &&!e.target.closest('#list')){
+    document.getElementById('list').style.display = 'none';
+  }
+});
+</script>
+</body>
+</html>
